@@ -1,0 +1,38 @@
+﻿using SecureShopAPI.DTOs.ProductDto;
+using SecureShopAPI.DTOs.RoleDto;
+using SecureShopAPI.DTOs.UserDto;
+using SecureShopAPI.Models;
+using AutoMapper;
+
+namespace SecureShopAPI.Mapping.Profiles;
+
+public class MappingProfile : Profile
+{
+    public MappingProfile()
+    {
+        #region Mapinng User
+
+        CreateMap<CreateUserDto, User>().ReverseMap();
+        CreateMap<UpdateUserDto, User>().ReverseMap();
+        CreateMap<DeleteUserDto, User>().ReverseMap();
+
+        #endregion
+
+        #region Mapinng Product
+
+        CreateMap<CreateProductDto, Product>().ReverseMap();
+        CreateMap<UpdateProductDto, Product>().ReverseMap();
+        CreateMap<DeleteProductDto, Product>().ReverseMap();
+
+        #endregion
+
+        #region Mapinng Role
+
+        CreateMap<CreateRoleDto, Role>().ReverseMap();
+        CreateMap<UpdateRoleDto, Role>().ReverseMap();
+        CreateMap<DeleteRoleDto, Role>().ReverseMap();
+
+        #endregion
+
+    }
+}

@@ -1,3 +1,4 @@
+using SecureShopAPI.Mapping.Profiles;
 
 namespace SecureShopAPI
 {
@@ -13,6 +14,12 @@ namespace SecureShopAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            #region IoC
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+            #endregion
 
             var app = builder.Build();
 

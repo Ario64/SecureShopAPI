@@ -95,7 +95,7 @@ public class SecureShopContext : DbContext
 
         //Initialize Auditable Entities
         var asyncAuditableEntries = ChangeTracker.Entries()
-            .Where(w => w.Entity is AuditableEntity && w.State == EntityState.Added || w.State == EntityState.Modified)
+            .Where(w => w.Entity is AuditableEntity && (w.State == EntityState.Added || w.State == EntityState.Modified))
             .ToList();
 
         foreach (var entry in asyncAuditableEntries)
@@ -122,7 +122,7 @@ public class SecureShopContext : DbContext
 
     #endregion
 
-    #region Congfig Save Change
+    #region Config Save Change
 
     public override int SaveChanges()
     {

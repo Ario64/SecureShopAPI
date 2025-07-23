@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\RoleDto\DeleteRoleDto.cs" />
+    <Compile Remove="DTOs\RoleDto\UpdateRoleDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +28,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DTOs\RoleDto\DeleteRoleDto.cs" />
+    <None Include="DTOs\RoleDto\UpdateRoleDto.cs" />
   </ItemGroup>
 
 </Project>
