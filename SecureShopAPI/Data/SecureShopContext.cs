@@ -5,7 +5,7 @@ namespace SecureShopAPI.Data;
 
 public class SecureShopContext : DbContext
 {
-    public SecureShopContext(DbContextOptions<SecureShopContext>  options) : base(options){}
+    public SecureShopContext(DbContextOptions<SecureShopContext> options) : base(options) { }
 
     #region DbSets
 
@@ -74,7 +74,7 @@ public class SecureShopContext : DbContext
         modelBuilder.Entity<Product>(
             pr =>
             {
-                pr.Property(p=>p.Id).UseSequence("ProductNumber", "shared");
+                pr.Property(p => p.Id).UseSequence("ProductNumber", "shared");
                 pr.Property(p => p.Name).HasMaxLength(300).IsRequired();
                 pr.Property(p => p.Description).HasMaxLength(700);
                 pr.Property(p => p.Price).HasColumnType("decimal(18,2)");
@@ -87,5 +87,72 @@ public class SecureShopContext : DbContext
 
     #endregion
 
+    #region Config Save Changes
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+
+
+        //Initialize Auditable Entities
+        var asyncAuditableEntries = ChangeTracker.Entries()
+            .Where(w => w.Entity is AuditableEntity && w.State == EntityState.Added || w.State == EntityState.Modified)
+            .ToList();
+
+        foreach (var entry in asyncAuditableEntries)
+        {
+            ((AuditableEntity)entry.Entity).UpdatedAt = DateTime.UtcNow;
+            if (entry.State == EntityState.Added)
+            {
+                ((AuditableEntity)(entry.Entity)).CreatedAt = DateTime.UtcNow;
+            }
+        }
+
+        //Initialize FullName as a Shadow Properties
+        var asyncShadowProperty = ChangeTracker.Entries<User>()
+            .Where(w => w.State == EntityState.Added || w.State == EntityState.Modified);
+
+        foreach (var entry in asyncShadowProperty)
+        {
+            var fullName = $"{entry.Entity.FirstName}{entry.Entity.LastName}";
+            entry.Property("FullName").CurrentValue = fullName;
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region Congfig Save Change
+
+    public override int SaveChanges()
+    {
+        //Initialize Auditable Entities
+        var auditableEntities = ChangeTracker.Entries()
+            .Where(w => w.Entity is AuditableEntity && w.State == EntityState.Added || w.State == EntityState.Modified)
+            .ToList();
+
+        foreach (var entry in auditableEntities)
+        {
+            ((AuditableEntity)entry.Entity).UpdatedAt = DateTime.UtcNow;
+            if (entry.State == EntityState.Added)
+            {
+                ((AuditableEntity)(entry.Entity)).CreatedAt = DateTime.UtcNow;
+            }
+        }
+
+        //Initialize Shadow Properties
+        var shadowEntities = ChangeTracker.Entries<User>()
+            .Where(w => w.State == EntityState.Added || w.State == EntityState.Modified);
+
+        foreach (var entry in shadowEntities)
+        {
+            var fullName = $"{entry.Entity.FirstName}{entry.Entity.LastName}";
+            entry.Property("FullName").CurrentValue = fullName;
+        }
+
+        return base.SaveChanges();
+    }
+
+    #endregion
 
 }
