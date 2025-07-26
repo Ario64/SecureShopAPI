@@ -6,9 +6,9 @@ using SecureShopAPI.Models;
 
 namespace SecureShopAPI.Mapping.Profiles;
 
-public class Profiler : Profile
+public class MappingProfile : Profile
 {
-    public Profiler()
+    public MappingProfile()
     {
         #region Mapinng User
 
