@@ -1,7 +1,6 @@
-namespace SecureShopAPI.DTOs.RoleDto
+﻿namespace SecureShopAPI.DTOs.RoleDto;
+
+public class DeleteRoleDto
 {
-    public class DeleteRoleDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

@@ -1,4 +1,7 @@
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using SecureShopAPI.Mapping.Profiles;
+using System.Reflection;
 
 namespace SecureShopAPI
 {
@@ -17,7 +20,7 @@ namespace SecureShopAPI
 
             #region IoC
 
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             #endregion
 

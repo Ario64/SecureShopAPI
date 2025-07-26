@@ -2,5 +2,5 @@
 
 public class GetProductDto
 {
-    
+    public int id { get; set; }
 }

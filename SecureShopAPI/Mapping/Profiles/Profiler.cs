@@ -1,14 +1,14 @@
-﻿using SecureShopAPI.DTOs.ProductDto;
+﻿using AutoMapper;
+using SecureShopAPI.DTOs.ProductDto;
 using SecureShopAPI.DTOs.RoleDto;
 using SecureShopAPI.DTOs.UserDto;
 using SecureShopAPI.Models;
-using AutoMapper;
 
 namespace SecureShopAPI.Mapping.Profiles;
 
-public class MappingProfile : Profile
+public class Profiler : Profile
 {
-    public MappingProfile()
+    public Profiler()
     {
         #region Mapinng User
 

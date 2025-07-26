@@ -2,5 +2,5 @@
 
 public class GetRoleDto
 {
-    
+    public int Id { get; set; }
 }
