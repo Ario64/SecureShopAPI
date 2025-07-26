@@ -87,7 +87,7 @@ public class SecureShopContext : DbContext
 
     #endregion
 
-    #region Config Save Changes
+    #region Config Save Changes Async
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -98,12 +98,17 @@ public class SecureShopContext : DbContext
             .Where(w => w.Entity is AuditableEntity && (w.State == EntityState.Added || w.State == EntityState.Modified))
             .ToList();
 
+        var currentUser = "system";
+
         foreach (var entry in asyncAuditableEntries)
         {
             ((AuditableEntity)entry.Entity).UpdatedAt = DateTime.UtcNow;
+            ((AuditableEntity)entry.Entity).CreatedBy = currentUser;
+
             if (entry.State == EntityState.Added)
             {
                 ((AuditableEntity)(entry.Entity)).CreatedAt = DateTime.UtcNow;
+                ((AuditableEntity)entry.Entity).UpdatedBy = currentUser;
             }
         }
 
@@ -113,7 +118,7 @@ public class SecureShopContext : DbContext
 
         foreach (var entry in asyncShadowProperty)
         {
-            var fullName = $"{entry.Entity.FirstName}{entry.Entity.LastName}";
+            var fullName = $"{entry.Entity.FirstName} {entry.Entity.LastName}";
             entry.Property("FullName").CurrentValue = fullName;
         }
 
